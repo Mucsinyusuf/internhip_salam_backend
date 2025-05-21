@@ -34,3 +34,24 @@ Retrieve all transactions with customer details included.
 (Additional CRUD routes for transactions can be added similarly as needed.)
 
 You can test these endpoints using API clients like Thunder Client, Postman, or via curl commands to verify data creation, retrieval, updating, and deletion.
+
+## Transaction Routes
+GET /transactions
+Retrieve all transactions. (Admin only)
+
+GET /transactions/<id>
+Get details of a specific transaction by ID.
+
+Testing the API
+Use tools like:
+
+Thunder Client
+
+Postman
+
+Or curl from the terminal.
+
+## Admin Routes
+post /admin/login
+logs you in as an admin
+
