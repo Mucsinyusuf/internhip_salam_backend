@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+alembic
+sqlalchemy-serializer
+passlib
+flask_migrate
+flask_cors
