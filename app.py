@@ -9,9 +9,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///salaam.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'your_secret_key_here'  # Needed for session management
 
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 migrate = Migrate(app, db)
 db.init_app(app)
+
+
 
 # ADMIN LOGIN
 @app.route('/admin/login', methods=['POST'])
@@ -23,20 +25,26 @@ def admin_login():
     admin = Admin.query.filter_by(username=username, password=password).first()
     if admin:
         session['admin_id'] = admin.id
-        return jsonify({"message": "Admin logged in successfully"})
+        return jsonify({"message": "Admin logged in successfully",
+                        "username": admin.username
+                        })
     else:
         return jsonify({"message": "Invalid credentials"}), 401
 
 @app.route('/admin/logout', methods=['POST'])
 def admin_logout():
+    print("Logout route hit")  # Debug print
     session.pop('admin_id', None)
     return jsonify({"message": "Admin logged out successfully"})
+
+
+
 
 # CUSTOMER CRUD - simple inline admin session check
 @app.route('/customers', methods=['POST'])
 def create_customer():
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
+    
+
 
     data = request.get_json()
     try:
@@ -64,24 +72,21 @@ def create_customer():
 
 @app.route('/customers', methods=['GET'])
 def get_customers():
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
+
 
     customers = Customer.query.all()
     return jsonify([c.to_dict() for c in customers]), 200
 
 @app.route('/customers/<int:id>', methods=['GET'])
 def get_customer(id):
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
+
 
     customer = Customer.query.get_or_404(id)
     return jsonify(customer.to_dict()), 200
 
 @app.route('/customers/<int:id>', methods=['PATCH'])
 def update_customer(id):
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
+
 
     customer = Customer.query.get_or_404(id)
     data = request.get_json()
@@ -105,8 +110,7 @@ def update_customer(id):
 
 @app.route('/customers/<int:id>', methods=['DELETE'])
 def delete_customer(id):
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
+
 
     customer = Customer.query.get_or_404(id)
     try:
@@ -120,8 +124,6 @@ def delete_customer(id):
 # View Transaction History - simple inline admin session check
 @app.route('/transactions', methods=['GET'])
 def admin_get_transactions():
-    if not session.get('admin_id'):
-        return jsonify({"error": "Unauthorized"}), 401
 
     transactions = Transaction.query.all()
     transactions_list = [t.to_dict() for t in transactions]

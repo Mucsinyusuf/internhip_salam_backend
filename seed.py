@@ -20,8 +20,18 @@ def seed_data():
         # Seed customers
         customers = [
             Customer(name='Mucsin Yusuf', email='mucsin@example.com', phone='0703549589'),
-            Customer(name='Ali Omar', email='ali@example.com', phone='0712345678'),
-            Customer(name='Fatma Noor', email='fatma@example.com', phone='0722233445'),
+            Customer(name='Ali Omar', email='ali@example.com', phone='0712345578'),
+            Customer(name='Hassan Abdi', email='fatma@example.com', phone='0722233445'),
+            Customer(name='Denis Joahn', email='Orange@example.com', phone='0722243445'),
+            Customer(name='Farahan Yusuf', email='mango@example.com', phone='0722237445'),
+            Customer(name='Harun Ahmed', email='nice@example.com', phone='0722233448'),
+            Customer(name='Amina Abdi', email='juice@example.com', phone='0722234448'),
+            Customer(name='Sahra Hussen', email='good@example.com', phone='0722233005'),
+            Customer(name='Sahra Hussen', email='great@example.com', phone='0722233845'),
+            Customer(name='Maggy Jira', email='muha@example.com', phone='0722233485'),
+            Customer(name='Shuib Musa', email='sunna@example.com', phone='0722233745'),
+            Customer(name='Hassan Abdirahman', email='terry@example.com', phone='0782233445'),
+           
         ]
         db.session.add_all(customers)
         db.session.commit()
